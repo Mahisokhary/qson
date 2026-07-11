@@ -6,4 +6,5 @@ build
 
 # Include dotfiles that should be included
 !.gitignore
+!.github
 
