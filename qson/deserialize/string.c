@@ -1,6 +1,6 @@
 #include "deserialize.internal.h"
 
-inline static qson_result handle_escape(struct qson_deserialize_ctx *c, char *buffer, int *sizep, int *ip) {
+inline static qson_result_t handle_escape(struct qson_deserialize_ctx *c, char *buffer, int *sizep, int *ip) {
 	int size = *sizep;
 	int i = *ip;
 	char escaped = c->buffer[++c->index];
@@ -36,7 +36,7 @@ inline static qson_result handle_escape(struct qson_deserialize_ctx *c, char *bu
 	return QSON_RESULT_OK;
 }
 
-qson_result qson_read_string(qson_deserialize_ctx_t ctx, char *buffer, int *sizep) {
+qson_result_t qson_read_string(qson_deserialize_ctx_t ctx, char *buffer, int *sizep) {
 	struct qson_deserialize_ctx *c = ctx;
 	if (c->buffer[c->index] != QSON_QUOTATION_MARK) return QSON_RESULT_INVALID_CHAR;
 	qson_ctx_skip(c, 1);
@@ -52,7 +52,7 @@ qson_result qson_read_string(qson_deserialize_ctx_t ctx, char *buffer, int *size
 			c->index++;
 			return QSON_RESULT_OK;
 		case QSON_STRING_ESCAPE_CHAR:
-			qson_result res = handle_escape(c, buffer, sizep, &i);
+			qson_result_t res = handle_escape(c, buffer, sizep, &i);
 			if (res != QSON_RESULT_OK) return res;
 			break;
 		default:

@@ -14,7 +14,7 @@ extern "C" {
 #define array_len(a) (sizeof(a) / sizeof(a[0]))
 #define qson_run(call) \
 	do { \
-		qson_result res = call; \
+		qson_result_t res = call; \
 		if (res != QSON_RESULT_OK) return res; \
 	} while (0)
 

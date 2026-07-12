@@ -25,7 +25,7 @@ bool test_qson_skip_white_spacesـunexpected_eof() {
 	return success;
 }
 
-static qson_result _test_qson_ctx_size_check(struct qson_deserialize_ctx *ctx) {
+static qson_result_t _test_qson_ctx_size_check(struct qson_deserialize_ctx *ctx) {
 	qson_ctx_size_check(ctx, 1);
 	return QSON_RESULT_OK;
 }

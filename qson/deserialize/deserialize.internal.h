@@ -29,7 +29,7 @@ struct qson_deserialize_ctx {
 	} while (0)
 #define qson_ctx_skip(ctx, amount) qson_ctx_size_check(ctx, amount); ctx->index += amount;
 
-inline qson_result _qson_skip_white_spaces(struct qson_deserialize_ctx *ctx) {
+inline qson_result_t _qson_skip_white_spaces(struct qson_deserialize_ctx *ctx) {
 	char chr = ctx->buffer[ctx->index];
 	int comment_state = 0;	// 0: not in comment,
 				// 1: unknown comment (type must be detected by next char),
@@ -72,7 +72,7 @@ inline qson_result _qson_skip_white_spaces(struct qson_deserialize_ctx *ctx) {
  * If current given type is AUTO set detected type
  * otherwize check if given type is equal to detected type and if not return QSON_RESULT_INVALID_TYPE
  */
-inline qson_result _qson_detect_type(struct qson_deserialize_ctx *ctx, qson_type *type) {
+inline qson_result_t _qson_detect_type(struct qson_deserialize_ctx *ctx, qson_type *type) {
 	qson_type dtype;
 	char chr = ctx->buffer[ctx->index];
 	switch (chr) {
