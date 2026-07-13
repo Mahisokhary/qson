@@ -6,10 +6,10 @@ bool test_qson_write_object() {
 	qson_serialize_ctx_t ctx;
 
 	bool success = 1;
-	success &= qson_create_serialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_write_object(ctx) == QSON_RESULT_OK;
 	success &= qson_serialize_object_end(ctx) == QSON_RESULT_OK;
-	success &= qson_end_serialize_ctx(ctx) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_end(ctx) == QSON_RESULT_OK;
 	success &= strcmp(buffer, "{}\0") == 0;
 	test_result_log(success);
 	return success;
@@ -23,11 +23,11 @@ bool test_qson_write_object_entry_string() {
 	char *value = "value";
 
 	bool success = 1;
-	success &= qson_create_serialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_write_object(ctx) == QSON_RESULT_OK;
 	success &= qson_write_object_entry_string(ctx, key, value, true) == QSON_RESULT_OK;
 	success &= qson_write_object_entry_string(ctx, key, value, false) == QSON_RESULT_OK;
-	success &= qson_end_serialize_ctx(ctx) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_end(ctx) == QSON_RESULT_OK;
 	success &= strcmp("{\"key\":\"value\",\"key\":\"value\"}", buffer) == 0;
 	test_result_log(success);
 	return success;
@@ -40,10 +40,10 @@ bool test_qson_write_object_entry_null() {
 	char *key = "key";
 
 	bool success = 1;
-	success &= qson_create_serialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_write_object(ctx) == QSON_RESULT_OK;
 	success &= qson_write_object_entry_null(ctx, key, false) == QSON_RESULT_OK;
-	success &= qson_end_serialize_ctx(ctx) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_end(ctx) == QSON_RESULT_OK;
 	success &= strcmp("{\"key\":null}", buffer) == 0;
 	test_result_log(success);
 	return success;
@@ -56,11 +56,11 @@ bool test_qson_write_object_entry_bool() {
 	char *key = "key";
 
 	bool success = 1;
-	success &= qson_create_serialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_write_object(ctx) == QSON_RESULT_OK;
 	success &= qson_write_object_entry_bool(ctx, key, true, true) == QSON_RESULT_OK;
 	success &= qson_write_object_entry_bool(ctx, key, false, false) == QSON_RESULT_OK;
-	success &= qson_end_serialize_ctx(ctx) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_end(ctx) == QSON_RESULT_OK;
 	success &= strcmp("{\"key\":true,\"key\":false}", buffer) == 0;
 	test_result_log(success);
 	return success;
@@ -73,10 +73,10 @@ bool test_qson_write_object_entry_number() {
 	char *key = "key";
 
 	bool success = 1;
-	success &= qson_create_serialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_write_object(ctx) == QSON_RESULT_OK;
 	success &= qson_write_object_entry_number(ctx, key, -1.23, false) == QSON_RESULT_OK;
-	success &= qson_end_serialize_ctx(ctx) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_end(ctx) == QSON_RESULT_OK;
 	success &= strcmp("{\"key\":-1.230000}", buffer) == 0;
 	test_result_log(success);
 	return success;
@@ -90,16 +90,16 @@ bool test_qson_write_object_entry_subctx() {
 	char *key = "key";
 
 	bool success = 1;
-	success &= qson_create_serialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_write_object(ctx) == QSON_RESULT_OK;
 
 	success &= qson_write_object_entry_subctx(ctx, key, &subctx) == QSON_RESULT_OK;
 	success &= qson_write_object(subctx) == QSON_RESULT_OK;
 	success &= qson_write_object_entry_bool(subctx, key, true, false) == QSON_RESULT_OK;
-	success &= qson_end_serialize_ctx(subctx) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_end(subctx) == QSON_RESULT_OK;
 	success &= qson_write_object_entry_subctx_end(ctx, subctx, false) == QSON_RESULT_OK;
 
-	success &= qson_end_serialize_ctx(ctx) == QSON_RESULT_OK;
+	success &= qson_serialize_ctx_end(ctx) == QSON_RESULT_OK;
 	success &= strcmp(buffer, "{\"key\":{\"key\":true}}") == 0;
 	test_result_log(success);
 	return success;

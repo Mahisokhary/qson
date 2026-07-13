@@ -1,7 +1,7 @@
 #include "serialize.internal.h"
 
 static inline qson_result_t _write_object_entry(struct qson_serialize_ctx *c, char *key) {
-	qson_run(qson_write_string(c, key));
+	qson_run(qson_serialize_string(c, key));
 	qson_ctx_write(c, QSON_NAME_SEPARATOR);
 	return QSON_RESULT_OK;
 }
@@ -28,7 +28,7 @@ qson_result_t qson_write_object_entry_string(qson_serialize_ctx_t ctx, char *key
 	struct qson_serialize_ctx *c = ctx;
 	if (c->state != QSON_SERIALIZE_STATE_OBJECT) return QSON_RESULT_INVALID_STATE;
 	qson_run(_write_object_entry(c, key));
-	qson_run(qson_write_string(c, value));
+	qson_run(qson_serialize_string(c, value));
 	qson_run(_handle_has_next(c, has_next));
 	return QSON_RESULT_OK;
 }
@@ -56,7 +56,7 @@ qson_result_t qson_write_object_entry_number(qson_serialize_ctx_t ctx, char *key
 	struct qson_serialize_ctx *c = ctx;
 	if (c->state != QSON_SERIALIZE_STATE_OBJECT) return QSON_RESULT_INVALID_STATE;
 	qson_run(_write_object_entry(c, key));
-	qson_run(qson_write_number(c, value));
+	qson_run(qson_serialize_number(c, value));
 	qson_run(_handle_has_next(c, has_next));
 	return QSON_RESULT_OK;
 }
@@ -65,7 +65,7 @@ qson_result_t qson_write_object_entry_subctx(qson_serialize_ctx_t ctx, char *key
 	struct qson_serialize_ctx *c = ctx;
 	if (c->state != QSON_SERIALIZE_STATE_OBJECT) return QSON_RESULT_INVALID_STATE;
 	qson_run(_write_object_entry(c, key));
-	qson_run(qson_create_sub_serialize_ctx(c, sub_ctx));
+	qson_run(qson_serialize_ctx_create_subctx(c, sub_ctx));
 	return QSON_RESULT_OK;
 }
 

@@ -13,7 +13,7 @@ typedef enum {
 	QSON_SERIALIZE_STATE_OBJECT = 1,	// writing an object
 	QSON_SERIALIZE_STATE_ARRAY = 2,		// writing an object
 	QSON_SERIALIZE_STATE_SUBCTX = 3,	// a subctx is active
-} qson_serialize_state;
+} qson_serialize_state_t;
 
 /*
  * Context for serilizing a json
@@ -25,25 +25,25 @@ typedef void* qson_serialize_ctx_t;
 /*
  * Create a serialize context for given byte buffer
  */
-qson_result_t qson_create_serialize_ctx(qson_serialize_ctx_t *ctx, char *buffer, int size);
+qson_result_t qson_serialize_ctx_create(qson_serialize_ctx_t *ctx, char *buffer, int size);
 
 /*
  * Finish buffer with a null terminator
  * Requires state NONE
  */
-qson_result_t qson_end_serialize_ctx(qson_serialize_ctx_t ctx);
+qson_result_t qson_serialize_ctx_end(qson_serialize_ctx_t ctx);
 
 /*
  * Writes a string value with needed escapes and with qutations
  * Ignores state
  */
-qson_result_t qson_write_string(qson_serialize_ctx_t ctx, char *value);
+qson_result_t qson_serialize_string(qson_serialize_ctx_t ctx, char *value);
 
 /*
  * Writes a number value
  * Ignores state
  */
-qson_result_t qson_write_number(qson_serialize_ctx_t ctx, double value);
+qson_result_t qson_serialize_number(qson_serialize_ctx_t ctx, double value);
 
 /*
  * Create a subctx for current ctx
@@ -51,7 +51,7 @@ qson_result_t qson_write_number(qson_serialize_ctx_t ctx, double value);
  * Sets ctx state to SUBCTX
  * Ignores state
  */
-qson_result_t qson_create_sub_serialize_ctx(qson_serialize_ctx_t ctx, qson_serialize_ctx_t *sub_ctx);
+qson_result_t qson_serialize_ctx_create_subctx(qson_serialize_ctx_t ctx, qson_serialize_ctx_t *sub_ctx);
 
 #ifdef __cplusplus
 }

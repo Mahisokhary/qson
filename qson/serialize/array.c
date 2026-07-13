@@ -21,7 +21,7 @@ qson_result_t qson_write_array(qson_serialize_ctx_t ctx) {
 qson_result_t qson_write_array_entry_string(qson_serialize_ctx_t ctx, char *value, bool has_next) {
 	struct qson_serialize_ctx *c = ctx;
 	if (c->state != QSON_SERIALIZE_STATE_ARRAY) return QSON_RESULT_INVALID_STATE;
-	qson_run(qson_write_string(c, value));
+	qson_run(qson_serialize_string(c, value));
 	qson_run(_handle_has_next(c, has_next));
 	return QSON_RESULT_OK;
 }
@@ -46,7 +46,7 @@ qson_result_t qson_write_array_entry_bool(qson_serialize_ctx_t ctx, bool value, 
 qson_result_t qson_write_array_entry_number(qson_serialize_ctx_t ctx, double value, bool has_next) {
 	struct qson_serialize_ctx *c = ctx;
 	if (c->state != QSON_SERIALIZE_STATE_ARRAY) return QSON_RESULT_INVALID_STATE;
-	qson_run(qson_write_number(c, value));
+	qson_run(qson_serialize_number(c, value));
 	qson_run(_handle_has_next(c, has_next));
 	return QSON_RESULT_OK;
 }
@@ -54,7 +54,7 @@ qson_result_t qson_write_array_entry_number(qson_serialize_ctx_t ctx, double val
 qson_result_t qson_write_array_entry_subctx(qson_serialize_ctx_t ctx, qson_serialize_ctx_t *sub_ctx) {
 	struct qson_serialize_ctx *c = ctx;
 	if (c->state != QSON_SERIALIZE_STATE_ARRAY) return QSON_RESULT_INVALID_STATE;
-	qson_run(qson_create_sub_serialize_ctx(c, sub_ctx));
+	qson_run(qson_serialize_ctx_create_subctx(c, sub_ctx));
 	return QSON_RESULT_OK;
 }
 
