@@ -1,6 +1,6 @@
 #include "deserialize.internal.h"
 
-qson_result_t qson_create_deserialize_ctx(qson_deserialize_ctx_t *ctx, char *buffer, int size) {
+qson_result_t qson_deserialize_ctx_create(qson_deserialize_ctx_t *ctx, char *buffer, int size) {
 	struct qson_deserialize_ctx *c = malloc(sizeof(struct qson_deserialize_ctx));
 	c->buffer = buffer;
 	c->size = size;

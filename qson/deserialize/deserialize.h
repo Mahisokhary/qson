@@ -27,7 +27,7 @@ typedef void* qson_deserialize_ctx_t;
 /*
  * Create a deserialize context for given byte buffer
  */
-qson_result_t qson_create_deserialize_ctx(qson_deserialize_ctx_t *ctx, char *buffer, int size);
+qson_result_t qson_deserialize_ctx_create(qson_deserialize_ctx_t *ctx, char *buffer, int size);
 
 //
 // Check if given char is a white space in a JSON

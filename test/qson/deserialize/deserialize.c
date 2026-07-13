@@ -6,7 +6,7 @@ bool test_qson_skip_white_spaces() {
 	qson_deserialize_ctx_t ctx;
 
 	bool success = 1;
-	success &= qson_create_deserialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_skip_white_spaces(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_index(ctx) == 4;
 	test_result_log(success);
@@ -19,7 +19,7 @@ bool test_qson_skip_white_spacesـunexpected_eof() {
 	qson_deserialize_ctx_t ctx;
 
 	bool success = 1;
-	success &= qson_create_deserialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_skip_white_spaces(ctx) == QSON_RESULT_UNEXPECTED_EOF;
 	test_result_log(success);
 	return success;
@@ -36,7 +36,7 @@ bool test_qson_ctx_size_check() {
 	struct qson_deserialize_ctx *ctx;
 
 	bool success = 1;
-	success &= qson_create_deserialize_ctx((void**) &ctx, buffer, 4) == QSON_RESULT_OK;
+	success &= qson_deserialize_ctx_create((void**) &ctx, buffer, 4) == QSON_RESULT_OK;
 	ctx->index = 3;
 	success &= _test_qson_ctx_size_check(ctx) == QSON_RESULT_UNEXPECTED_EOF;
 	test_result_log(success);
@@ -50,7 +50,7 @@ bool test_qson_skip_white_spacesـline_comment() {
 	qson_deserialize_ctx_t ctx;
 
 	bool success = 1;
-	success &= qson_create_deserialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_skip_white_spaces(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_index(ctx) == 18;
 	test_result_log(success);
@@ -63,7 +63,7 @@ bool test_qson_skip_white_spacesـarea_comment() {
 	qson_deserialize_ctx_t ctx;
 
 	bool success = 1;
-	success &= qson_create_deserialize_ctx(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_skip_white_spaces(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_index(ctx) == 20;
 	test_result_log(success);
