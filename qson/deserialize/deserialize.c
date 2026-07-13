@@ -22,7 +22,7 @@ qson_result_t qson_deserialize_skip_white_spaces(qson_deserialize_ctx_t ctx) {
 	return _qson_deserialize_skip_white_spaces(ctx);
 }
 
-qson_result_t qson_read_bool(qson_deserialize_ctx_t ctx, bool *value) {
+qson_result_t qson_deserialize_bool(qson_deserialize_ctx_t ctx, bool *value) {
 	struct qson_deserialize_ctx *c = ctx;
 	char chr = c->buffer[c->index];
 
@@ -38,16 +38,16 @@ qson_result_t qson_read_bool(qson_deserialize_ctx_t ctx, bool *value) {
 				}
 			}
 			*value = false;
-			goto qson_read_bool_exit;
+			goto qson_deserialize_bool_exit;
 		}
 	}
 	*value = true;
-qson_read_bool_exit:
+qson_deserialize_bool_exit:
 	c->index += i;
 	return QSON_RESULT_OK;
 }
 
-qson_result_t qson_skip_null(qson_deserialize_ctx_t ctx) {
+qson_result_t qson_deserialize_null(qson_deserialize_ctx_t ctx) {
 	struct qson_deserialize_ctx *c = ctx;
 	qson_ctx_size_check(c, 4);
 	for (int i = 0; i < array_len(QSON_NULL) - 1; i++) {
@@ -59,7 +59,7 @@ qson_result_t qson_skip_null(qson_deserialize_ctx_t ctx) {
 	return QSON_RESULT_OK;
 }
 
-qson_result_t qson_read_number(qson_deserialize_ctx_t ctx, double *value) {
+qson_result_t qson_deserialize_number(qson_deserialize_ctx_t ctx, double *value) {
 	struct qson_deserialize_ctx *c = ctx;
 	switch (c->buffer[c->index]) {
 	case '0':
@@ -86,7 +86,7 @@ static inline qson_result_t skip_string(qson_deserialize_ctx_t ctx) {
 	return QSON_RESULT_OK;
 }
 
-qson_result_t qson_create_sub_deserialize_ctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t *sub_ctx) {
+qson_result_t qson_deserialize_ctx_create_subctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t *sub_ctx) {
 	struct qson_deserialize_ctx *c = ctx;
 	struct qson_deserialize_ctx *sc = malloc(sizeof(struct qson_deserialize_ctx));
 	sc->buffer = c->buffer + c->index;

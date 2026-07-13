@@ -50,7 +50,7 @@ qson_result_t qson_get_array_entry(qson_deserialize_ctx_t ctx, qson_type_t *type
 qson_result_t qson_get_array_entry_value_string(qson_deserialize_ctx_t ctx, char *value, int *value_length, bool *has_next) {
 	struct qson_deserialize_ctx *c = ctx;
 	if (c->state != QSON_DESERIALIZING_STATE_ARRAY_VALUE) return QSON_RESULT_INVALID_STATE;
-	qson_run(qson_read_string(c, value, value_length));
+	qson_run(qson_deserialize_string(c, value, value_length));
 	qson_run(_qson_deserialize_skip_white_spaces(c));
 	qson_run(set_has_next(c, has_next));
 	return QSON_RESULT_OK;
@@ -59,7 +59,7 @@ qson_result_t qson_get_array_entry_value_string(qson_deserialize_ctx_t ctx, char
 qson_result_t qson_get_array_entry_value_bool(qson_deserialize_ctx_t ctx, bool *value, bool *has_next) {
 	struct qson_deserialize_ctx *c = ctx;
 	if (c->state != QSON_DESERIALIZING_STATE_ARRAY_VALUE) return QSON_RESULT_INVALID_STATE;
-	qson_run(qson_read_bool(c, value));
+	qson_run(qson_deserialize_bool(c, value));
 	qson_run(_qson_deserialize_skip_white_spaces(c));
 	qson_run(set_has_next(c, has_next));
 	return QSON_RESULT_OK;
@@ -68,7 +68,7 @@ qson_result_t qson_get_array_entry_value_bool(qson_deserialize_ctx_t ctx, bool *
 qson_result_t qson_get_array_entry_value_null(qson_deserialize_ctx_t ctx, bool *has_next) {
 	struct qson_deserialize_ctx *c = ctx;
 	if (c->state != QSON_DESERIALIZING_STATE_ARRAY_VALUE) return QSON_RESULT_INVALID_STATE;
-	qson_run(qson_skip_null(c));
+	qson_run(qson_deserialize_null(c));
 	qson_run(_qson_deserialize_skip_white_spaces(c));
 	qson_run(set_has_next(c, has_next));
 	return QSON_RESULT_OK;
@@ -77,7 +77,7 @@ qson_result_t qson_get_array_entry_value_null(qson_deserialize_ctx_t ctx, bool *
 qson_result_t qson_get_array_entry_value_number(qson_deserialize_ctx_t ctx, double *value, bool *has_next) {
 	struct qson_deserialize_ctx *c = ctx;
 	if (c->state != QSON_DESERIALIZING_STATE_ARRAY_VALUE) return QSON_RESULT_INVALID_STATE;
-	qson_run(qson_read_number(c, value));
+	qson_run(qson_deserialize_number(c, value));
 	qson_run(_qson_deserialize_skip_white_spaces(c));
 	qson_run(set_has_next(c, has_next));
 	return QSON_RESULT_OK;
@@ -86,7 +86,7 @@ qson_result_t qson_get_array_entry_value_number(qson_deserialize_ctx_t ctx, doub
 qson_result_t qson_get_array_entry_value_sub_ctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t sub_ctx) {
 	struct qson_deserialize_ctx *c = ctx;
 	if (c->state != QSON_DESERIALIZING_STATE_ARRAY_VALUE) return QSON_RESULT_INVALID_STATE;
-	qson_run(qson_create_sub_deserialize_ctx(ctx, sub_ctx));
+	qson_run(qson_deserialize_ctx_create_subctx(ctx, sub_ctx));
 	return QSON_RESULT_OK;
 }
 

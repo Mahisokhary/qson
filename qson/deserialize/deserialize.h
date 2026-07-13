@@ -44,33 +44,33 @@ qson_result_t qson_deserialize_skip_white_spaces(qson_deserialize_ctx_t ctx);
  * Read a string in current context
  * Ignores state
  */
-qson_result_t qson_read_string(qson_deserialize_ctx_t ctx, char *buffer, int *size);
+qson_result_t qson_deserialize_string(qson_deserialize_ctx_t ctx, char *buffer, int *size);
 
 /*
  * Read a boolean value in current context
  * Ignores state
  */
-qson_result_t qson_read_bool(qson_deserialize_ctx_t ctx, bool *value);
+qson_result_t qson_deserialize_bool(qson_deserialize_ctx_t ctx, bool *value);
 
 /*
  * Skip null value
  * Ignores state
  */
-qson_result_t qson_skip_null(qson_deserialize_ctx_t ctx);
+qson_result_t qson_deserialize_null(qson_deserialize_ctx_t ctx);
 
 
 /*
  * Read a number value in current context and return it as a signed double
  * Ignores state
  */
-qson_result_t qson_read_number(qson_deserialize_ctx_t ctx, double *value);
+qson_result_t qson_deserialize_number(qson_deserialize_ctx_t ctx, double *value);
 
 /*
  * Create a deserialize context that deserialize an object or and array nested in current context
  * Sets state to SUBCTX
  * Ignores state
  */
-qson_result_t qson_create_sub_deserialize_ctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t *sub_ctx);
+qson_result_t qson_deserialize_ctx_create_subctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t *sub_ctx);
 
 /*
  * Add subctx index to ctx (changing state is caller responsibility)
