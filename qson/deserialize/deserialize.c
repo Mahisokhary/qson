@@ -18,8 +18,8 @@ bool qson_is_white_space(char chr) {
 	return false;
 }
 
-qson_result_t qson_skip_white_spaces(qson_deserialize_ctx_t ctx) {
-	return _qson_skip_white_spaces(ctx);
+qson_result_t qson_deserialize_skip_white_spaces(qson_deserialize_ctx_t ctx) {
+	return _qson_deserialize_skip_white_spaces(ctx);
 }
 
 qson_result_t qson_read_bool(qson_deserialize_ctx_t ctx, bool *value) {
