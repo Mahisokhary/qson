@@ -35,7 +35,7 @@ typedef enum {
 	QSON_RESULT_BUFFER_TOO_SMALL = 4,	// value dont fit in given buffer
 	QSON_RESULT_INVALID_TYPE = 5,		// invalid qson type is given
 	QSON_RESULT_INVALID_CONTEXT = 6,	// invalid context is given, returned when ctx has invalid flags or ...
-} qson_result;
+} qson_result_t;
 
 typedef enum {
 	QSON_TYPE_AUTO = 0,		// Type should be auto detected
@@ -45,7 +45,7 @@ typedef enum {
 	QSON_TYPE_BOOL = 4,		// Type is a boolean
 	QSON_TYPE_OBJECT = 5,		// Type is an object
 	QSON_TYPE_ARRAY = 6,		// Type is an array
-} qson_type;
+} qson_type_t;
 
 #ifdef __cplusplus
 }

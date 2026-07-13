@@ -17,7 +17,7 @@ struct qson_serialize_ctx {
 	char *buffer;	// Buffer which json should be writen in
 	int size;	// Size of the buffer
 	int index;	// Current index in buffer
-	qson_serialize_state state;	// Current state of serialization
+	qson_serialize_state_t state;	// Current state of serialization
 	char flags;	// Flags for current ctx
 };
 
