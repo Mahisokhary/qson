@@ -53,6 +53,12 @@ qson_result_t qson_deserialize_skip_white_spaces(qson_deserialize_ctx_t ctx);
 qson_result_t qson_deserialize_string(qson_deserialize_ctx_t ctx, char *buffer, int *size);
 
 /*
+ * Skip a string value
+ * Ignores state
+ */
+qson_result_t qson_deserialize_string_skip(qson_deserialize_ctx_t ctx);
+
+/*
  * Read a boolean value in current context
  * Ignores state
  */

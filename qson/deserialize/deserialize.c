@@ -80,14 +80,15 @@ qson_result_t qson_deserialize_number(qson_deserialize_ctx_t ctx, double *value)
 	return QSON_RESULT_OK;
 }
 
-static inline qson_result_t skip_string(qson_deserialize_ctx_t ctx) {
+qson_result_t qson_deserialize_string_skip(qson_deserialize_ctx_t ctx) {
 	struct qson_deserialize_ctx *c = ctx;
+	if (c->buffer[c->index] != QSON_QUOTATION_MARK) return QSON_RESULT_INVALID_CHAR;
 	qson_ctx_skip(c, 1);
 	while (c->buffer[c->index] != QSON_QUOTATION_MARK && c->index < c->size) {
 		int move = c->buffer[c->index] == '\\' ? 2 : 1;
-		qson_ctx_size_check(c, move);
-		c->index += move;
+		qson_ctx_skip(c, move);
 	}
+	qson_ctx_skip(c, 1);
 	return QSON_RESULT_OK;
 }
 
