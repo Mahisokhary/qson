@@ -34,7 +34,7 @@ static qson_result_t _test_qson_ctx_size_check(struct qson_deserialize_ctx *ctx)
 
 bool test_qson_ctx_size_check() {
 	test_run_log("qson_ctx_size_check");
-	char buffer[] = "testing";
+	char buffer[] = "123";
 	struct qson_deserialize_ctx *ctx;
 
 	bool success = 1;

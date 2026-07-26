@@ -21,12 +21,8 @@ struct qson_deserialize_ctx {
 	char flags;	// flags for current ctx
 };
 
-#define qson_ctx_has_size(ctx, required_size) (ctx->size - ctx->index - 1) < required_size || ctx->buffer[ctx->index + required_size] == '\0'
-#define qson_ctx_size_check(ctx, required_size) \
-	do { \
-		if (qson_ctx_has_size(ctx, required_size)) \
-			return QSON_RESULT_UNEXPECTED_EOF; \
-	} while (0)
+#define qson_ctx_size_has(ctx, required_size) ((ctx->size - ctx->index) >= required_size && ctx->buffer[ctx->index + required_size] != '\0')
+#define qson_ctx_size_check(ctx, required_size) if (!qson_ctx_size_has(ctx, required_size)) return QSON_RESULT_UNEXPECTED_EOF;
 #define qson_ctx_skip(ctx, amount) qson_ctx_size_check(ctx, amount); ctx->index += amount;
 
 inline qson_result_t _qson_deserialize_skip_white_spaces(struct qson_deserialize_ctx *ctx) {

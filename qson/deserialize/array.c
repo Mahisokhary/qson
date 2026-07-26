@@ -30,7 +30,7 @@ qson_result_t qson_deserialize_array_start(qson_deserialize_ctx_t ctx) {
 	qson_run(_qson_deserialize_skip_white_spaces(c));
 	if (c->buffer[c->index] == QSON_END_ARRAY) {
 		c->state = QSON_DESERIALIZING_STATE_NONE;
-		if (qson_ctx_has_size(c, 1)) c->index++;
+		if (qson_ctx_size_has(c, 1)) c->index++;
 	} else {
 		c->state = QSON_DESERIALIZING_STATE_ARRAY;
 	}
