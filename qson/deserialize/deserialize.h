@@ -65,6 +65,12 @@ qson_result_t qson_deserialize_string_skip(qson_deserialize_ctx_t ctx);
 qson_result_t qson_deserialize_bool(qson_deserialize_ctx_t ctx, bool *value);
 
 /*
+ * Skip a boolean value
+ * Ignores state
+ */
+qson_result_t qson_deserialize_bool_skip(qson_deserialize_ctx_t ctx);
+
+/*
  * Skip null value
  * Ignores state
  */
