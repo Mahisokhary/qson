@@ -84,6 +84,12 @@ qson_result_t qson_deserialize_null(qson_deserialize_ctx_t ctx);
 qson_result_t qson_deserialize_number(qson_deserialize_ctx_t ctx, double *value);
 
 /*
+ * Skips a number value
+ * Ignores state
+ */
+qson_result_t qson_deserialize_number_skip(qson_deserialize_ctx_t ctx);
+
+/*
  * Create a deserialize context that deserialize an object or and array nested in current context
  * Sets state to SUBCTX
  * Ignores state

@@ -93,6 +93,11 @@ qson_result_t qson_deserialize_number(qson_deserialize_ctx_t ctx, double *value)
 	return QSON_RESULT_OK;
 }
 
+qson_result_t qson_deserialize_number_skip(qson_deserialize_ctx_t ctx) {
+	double ignored;
+	return qson_deserialize_number(ctx, &ignored);
+}
+
 qson_result_t qson_deserialize_string_skip(qson_deserialize_ctx_t ctx) {
 	struct qson_deserialize_ctx *c = ctx;
 	if (c->buffer[c->index] != QSON_QUOTATION_MARK) return QSON_RESULT_INVALID_CHAR;
