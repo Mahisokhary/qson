@@ -169,6 +169,27 @@ bool test_qson_deserialize_array_entry_value_sub_ctx() {
 	return success;
 }
 
+bool test_qson_deserialize_array_entry_value_skip() {
+	test_run_log("qson_deserialize_array_entry_value_skip");
+	char buffer[] = "[ false , \"sik\" , 2 , null ]";
+	qson_deserialize_ctx_t ctx;
+
+	bool success = 1;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_array_start(ctx) == QSON_RESULT_OK;
+	if (qson_deserialize_ctx_state(ctx) == QSON_DESERIALIZING_STATE_ARRAY) {
+		bool has_next = true;
+		while (has_next && success) {
+			qson_type_t value_type = QSON_TYPE_AUTO;
+			success &= qson_deserialize_array_entry(ctx, &value_type) == QSON_RESULT_OK;
+			success &= qson_deserialize_array_entry_value_skip(ctx, &has_next) == QSON_RESULT_OK;
+		}
+	}
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+	test_result_log(success);
+	return success;
+ }
+
 bool test_qson_deserialize_array() {
 	bool success = 1;
 	success &= test_qson_deserialize_array_start();
@@ -178,5 +199,6 @@ bool test_qson_deserialize_array() {
 	success &= test_qson_deserialize_array_entry_value_null();
 	success &= test_qson_deserialize_array_entry_value_number();
 	success &= test_qson_deserialize_array_entry_value_sub_ctx();
+	success &= test_qson_deserialize_array_entry_value_skip();
 	return success;	
 }

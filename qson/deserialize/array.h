@@ -18,6 +18,12 @@ qson_result_t qson_deserialize_array_start(qson_deserialize_ctx_t ctx);
 qson_result_t qson_deserialize_array_entry(qson_deserialize_ctx_t ctx, qson_type_t *type);
 
 /*
+ * Skip current entry value
+ * Requires state ARRAY_VALUE
+ */
+qson_result_t qson_deserialize_array_entry_value_skip(qson_deserialize_ctx_t ctx, bool *has_next);
+
+/*
  * Read value of entry as a string
  * set context state to ARRAY if has next entry and set to NONE if not
  * Requires state ARRAY_VALUE
