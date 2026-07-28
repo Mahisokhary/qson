@@ -29,40 +29,22 @@ qson_result_t qson_deserialize_skip_white_spaces(qson_deserialize_ctx_t ctx) {
 
 qson_result_t qson_deserialize_bool(qson_deserialize_ctx_t ctx, bool *value) {
 	struct qson_deserialize_ctx *c = ctx;
-	char chr = c->buffer[c->index];
-
-	int i;
-	qson_ctx_size_check(c, 4);
-	for (i = 0; i < array_len(QSON_BOOL_TRUE) - 1; i++) {
-		if (c->buffer[c->index + i] != QSON_BOOL_TRUE[i]) {
-			qson_ctx_size_check(c, 5);
-			for (i = 0; i < array_len(QSON_BOOL_FALSE) - 1; i++) {
-				if (c->buffer[c->index + i] != QSON_BOOL_FALSE[i]) {
-					c->index += i;
-					return QSON_RESULT_INVALID_CHAR;
-				}
-			}
-			*value = false;
-			goto qson_deserialize_bool_exit;
-		}
-	}
-	*value = true;
-qson_deserialize_bool_exit:
-	c->index += i;
-	return QSON_RESULT_OK;
-}
-
-qson_result_t qson_deserialize_bool_skip(qson_deserialize_ctx_t ctx) {
-	struct qson_deserialize_ctx *c = ctx;
 	char *pos = &c->buffer[c->index];
 	if (qson_ctx_size_has(c, sizeof(QSON_BOOL_TRUE) - 1) && memcmp(pos, QSON_BOOL_TRUE, sizeof(QSON_BOOL_TRUE) - 1) == 0) {
 		qson_ctx_skip(c, sizeof(QSON_BOOL_TRUE) - 1);
-	} else if (qson_ctx_size_has(c, sizeof(QSON_BOOL_FALSE)) && memcmp(pos, QSON_BOOL_FALSE, sizeof(QSON_BOOL_FALSE) - 1) == 0) {
-		qson_ctx_skip(c, sizeof(QSON_BOOL_FALSE));
+		*value = true;
+	} else if (qson_ctx_size_has(c, sizeof(QSON_BOOL_FALSE) - 1) && memcmp(pos, QSON_BOOL_FALSE, sizeof(QSON_BOOL_FALSE) - 1) == 0) {
+		qson_ctx_skip(c, sizeof(QSON_BOOL_FALSE) - 1);
+		*value = false;
 	} else {
 		return QSON_RESULT_INVALID_CHAR;
 	}
 	return QSON_RESULT_OK;
+}
+
+qson_result_t qson_deserialize_bool_skip(qson_deserialize_ctx_t ctx) {
+	bool ignored;
+	return qson_deserialize_bool(ctx, &ignored);
 }
 
 qson_result_t qson_deserialize_null(qson_deserialize_ctx_t ctx) {
