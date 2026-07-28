@@ -141,8 +141,10 @@ qson_result_t qson_deserialize_auto_skip(qson_deserialize_ctx_t ctx) {
 	case QSON_TYPE_BOOL:
 		qson_run(qson_deserialize_bool_skip(ctx));
 		break;
-	case QSON_TYPE_OBJECT:
 	case QSON_TYPE_ARRAY:
+		qson_run(qson_deserialize_array_skip(ctx));
+		break;
+	case QSON_TYPE_OBJECT:
 	default:
 		return QSON_RESULT_INVALID_TYPE;
 	}

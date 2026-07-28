@@ -171,7 +171,7 @@ bool test_qson_deserialize_array_entry_value_sub_ctx() {
 
 bool test_qson_deserialize_array_entry_value_skip() {
 	test_run_log("qson_deserialize_array_entry_value_skip");
-	char buffer[] = "[ false , \"sik\" , 2 , null ]";
+	char buffer[] = "[ false , \"sik\" , 2 , null, [ 85 ], [] ]w";
 	qson_deserialize_ctx_t ctx;
 
 	bool success = 1;
@@ -190,6 +190,20 @@ bool test_qson_deserialize_array_entry_value_skip() {
 	return success;
  }
 
+bool test_qson_deserialize_array_skip() {
+	test_run_log("qson_deserialize_array_skip");
+	char buffer[] = "[ false , \"sik\" , 2 , null, [ 85, 69 ], [] ]w";
+	qson_deserialize_ctx_t ctx;
+
+	bool success = 1;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_array_skip(ctx) == QSON_RESULT_OK;
+	success &= buffer[qson_deserialize_ctx_index(ctx)] == 'w';
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+	test_result_log(success);
+	return success;
+}
+
 bool test_qson_deserialize_array() {
 	bool success = 1;
 	success &= test_qson_deserialize_array_start();
@@ -200,5 +214,6 @@ bool test_qson_deserialize_array() {
 	success &= test_qson_deserialize_array_entry_value_number();
 	success &= test_qson_deserialize_array_entry_value_sub_ctx();
 	success &= test_qson_deserialize_array_entry_value_skip();
+	success &= test_qson_deserialize_array_skip();
 	return success;	
 }

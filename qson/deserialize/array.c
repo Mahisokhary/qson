@@ -109,3 +109,22 @@ qson_result_t qson_deserialize_array_entry_value_sub_ctx_end(qson_deserialize_ct
 	return QSON_RESULT_OK;
 }
 
+qson_result_t qson_deserialize_array_skip(qson_deserialize_ctx_t ctx) {
+	struct qson_deserialize_ctx *c = ctx;
+	struct qson_deserialize_ctx *sc;
+	qson_deserialize_state_t state = c->state;
+	qson_run(qson_deserialize_ctx_create_subctx(ctx, (void **) &sc));
+	qson_run(qson_deserialize_array_start(sc));
+	if (sc->state == QSON_DESERIALIZING_STATE_ARRAY) {
+		bool has_next = true;
+		while (has_next) {
+			qson_type_t type = QSON_TYPE_AUTO;
+			qson_run(qson_deserialize_array_entry(sc, &type));
+			qson_run(qson_deserialize_array_entry_value_skip(sc, &has_next));
+		}
+	}
+	qson_run(qson_deserialize_ctx_end_subctx(ctx, sc));
+	c->state = state;
+	return QSON_RESULT_OK;
+}
+
