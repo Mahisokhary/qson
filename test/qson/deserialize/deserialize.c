@@ -117,6 +117,20 @@ bool test_qson_deserialize_number_skip() {
 	return success;
 }
 
+bool test_qson_deserialize_auto_skip() {
+	test_run_log("qson_deserialize_auto_skip");
+	char buffer[] = "truew";
+	qson_deserialize_ctx_t ctx;
+
+	bool success = 1;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_auto_skip(ctx) == QSON_RESULT_OK;
+	success &= buffer[qson_deserialize_ctx_index(ctx)] == 'w';
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+	test_result_log(success);
+	return success;
+}
+
 extern bool test_qson_deserialize_array();
 extern bool test_qson_deserialize_object();
 
@@ -130,6 +144,7 @@ bool test_qson_deserialize() {
 	success &= test_qson_deserialize_string_skip();
 	success &= test_qson_deserialize_bool_skip();
 	success &= test_qson_deserialize_number_skip();
+	success &= test_qson_deserialize_auto_skip();
 	success &= test_qson_deserialize_array();
 	success &= test_qson_deserialize_object();
 	return success;

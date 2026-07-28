@@ -142,3 +142,28 @@ qson_deserialize_state_t qson_deserialize_ctx_state(qson_deserialize_ctx_t ctx) 
 	return ((struct qson_deserialize_ctx *) ctx)->state;
 }
 
+qson_result_t qson_deserialize_auto_skip(qson_deserialize_ctx_t ctx) {
+	struct qson_deserialize_ctx *c = ctx;
+	qson_type_t type = QSON_TYPE_AUTO;
+	qson_run(_qson_detect_type(c, &type));
+	switch (type) {
+	case QSON_TYPE_STRING:
+		qson_run(qson_deserialize_string_skip(ctx));
+		break;
+	case QSON_TYPE_NUMBER:
+		qson_run(qson_deserialize_number_skip(ctx));
+		break;
+	case QSON_TYPE_NULL:
+		qson_run(qson_deserialize_null(ctx));
+		break;
+	case QSON_TYPE_BOOL:
+		qson_run(qson_deserialize_bool_skip(ctx));
+		break;
+	case QSON_TYPE_OBJECT:
+	case QSON_TYPE_ARRAY:
+	default:
+		return QSON_RESULT_INVALID_TYPE;
+	}
+	return QSON_RESULT_OK;
+}
+

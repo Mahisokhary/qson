@@ -112,6 +112,12 @@ int qson_deserialize_ctx_index(qson_deserialize_ctx_t ctx);
  */
 qson_deserialize_state_t qson_deserialize_ctx_state(qson_deserialize_ctx_t ctx);
 
+/*
+ * Auto detect and skip value at current index in the context
+ * Ignores state
+ */
+qson_result_t qson_deserialize_auto_skip(qson_deserialize_ctx_t ctx);
+
 #ifdef __cplusplus
 }
 #endif
