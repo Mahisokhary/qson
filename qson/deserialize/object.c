@@ -63,6 +63,16 @@ qson_result_t qson_deserialize_object_entry(qson_deserialize_ctx_t ctx, char *ke
 	return QSON_RESULT_OK;
 }
 
+qson_result_t qson_deserialize_object_entry_value_skip(qson_deserialize_ctx_t ctx, bool *has_next) {
+	struct qson_deserialize_ctx *c = ctx;
+	if (c->state != QSON_DESERIALIZING_STATE_OBJECT_VALUE) return QSON_RESULT_INVALID_STATE;
+	qson_run(_qson_deserialize_skip_white_spaces(c));
+	qson_run(qson_deserialize_auto_skip(ctx));
+	qson_run(_qson_deserialize_skip_white_spaces(c));
+	qson_run(set_has_next(c, has_next));
+	return QSON_RESULT_OK;
+}
+
 qson_result_t qson_deserialize_object_entry_value_string(qson_deserialize_ctx_t ctx, char *value, int *value_length, bool *has_next) {
 	struct qson_deserialize_ctx *c = ctx;
 	if (c->state != QSON_DESERIALIZING_STATE_OBJECT_VALUE) return QSON_RESULT_INVALID_STATE;
