@@ -48,7 +48,11 @@ qson_result_t qson_deserialize_object_entry(qson_deserialize_ctx_t ctx, char *ke
 	if (c->buffer[c->index] != QSON_QUOTATION_MARK) return QSON_RESULT_INVALID_CHAR;
 	c->state = QSON_DESERIALIZING_STATE_OBJECT_VALUE;
 
-	qson_run(qson_deserialize_string(ctx, key, key_length));
+	if (key != NULL && key_length != NULL) {
+		qson_run(qson_deserialize_string(ctx, key, key_length));
+	} else {
+		qson_run(qson_deserialize_string_skip(ctx));
+	}
 	qson_run(_qson_deserialize_skip_white_spaces(ctx));
 
 	if (c->buffer[c->index++] != QSON_NAME_SEPARATOR) return QSON_RESULT_INVALID_CHAR;

@@ -34,6 +34,13 @@ bool test_qson_deserialize_object_entry() {
 	success &= strcmp(key, "key\u2764") == 0;
 	success &= value_type == QSON_TYPE_STRING;
 	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+
+	// Skip the key
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_object_start(ctx) == QSON_RESULT_OK;
+	success &= qson_deserialize_object_entry(ctx, NULL, NULL, &value_type) == QSON_RESULT_OK;
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+
 	test_result_log(success);
 	return success;
 }
