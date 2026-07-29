@@ -64,6 +64,12 @@ qson_result_t qson_deserialize_object_entry_value_sub_ctx(qson_deserialize_ctx_t
  */
 qson_result_t qson_deserialize_object_entry_value_sub_ctx_end(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t sub_ctx, bool *has_next);
 
+/*
+ * Skips object at current index in context
+ * Ignores state
+ */
+qson_result_t qson_deserialize_object_skip(qson_deserialize_ctx_t ctx);
+
 #ifdef __cplusplus
 }
 #endif
