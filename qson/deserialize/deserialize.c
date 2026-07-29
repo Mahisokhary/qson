@@ -130,26 +130,18 @@ qson_result_t qson_deserialize_auto_skip(qson_deserialize_ctx_t ctx) {
 	qson_run(_qson_detect_type(c, &type));
 	switch (type) {
 	case QSON_TYPE_STRING:
-		qson_run(qson_deserialize_string_skip(ctx));
-		break;
+		return qson_deserialize_string_skip(ctx);
 	case QSON_TYPE_NUMBER:
-		qson_run(qson_deserialize_number_skip(ctx));
-		break;
+		return qson_deserialize_number_skip(ctx);
 	case QSON_TYPE_NULL:
-		qson_run(qson_deserialize_null(ctx));
-		break;
+		return qson_deserialize_null(ctx);
 	case QSON_TYPE_BOOL:
-		qson_run(qson_deserialize_bool_skip(ctx));
-		break;
+		return qson_deserialize_bool_skip(ctx);
 	case QSON_TYPE_ARRAY:
-		qson_run(qson_deserialize_array_skip(ctx));
-		break;
+		return qson_deserialize_array_skip(ctx);
 	case QSON_TYPE_OBJECT:
-		qson_run(qson_deserialize_object_skip(ctx));
-		break;
-	default:
-		return QSON_RESULT_INVALID_TYPE;
+		return qson_deserialize_object_skip(ctx);
 	}
-	return QSON_RESULT_OK;
+	return QSON_RESULT_INVALID_TYPE;
 }
 
