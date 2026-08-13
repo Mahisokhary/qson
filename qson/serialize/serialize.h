@@ -18,7 +18,7 @@ typedef enum {
 /*
  * Context for serilizing a json
  */
-typedef void* qson_serialize_ctx_t;
+typedef struct qson_serialize_ctx* qson_serialize_ctx_t;
 
 #define QSON_SERIALIZE_CTX_FLAG_IS_SUBCTX	1	// Indicates current ctx is subctx of another ctx
 
