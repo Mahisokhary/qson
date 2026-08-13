@@ -20,7 +20,7 @@ typedef enum {
 /*
  * Context for deserilizing a json
  */
-typedef void* qson_deserialize_ctx_t;
+typedef struct qson_deserialize_ctx* qson_deserialize_ctx_t;
 
 #define QSON_DESERIALIZE_CTX_FLAG_IS_SUBCTX	1	// Indicates current ctx is subctx of another ctx
 

@@ -27,7 +27,7 @@ bool test_qson_deserialize_skip_white_spacesـunexpected_eof() {
 	return success;
 }
 
-static qson_result_t _test_qson_ctx_size_check(struct qson_deserialize_ctx *ctx) {
+static qson_result_t _test_qson_ctx_size_check(qson_deserialize_ctx_t ctx) {
 	qson_ctx_size_check(ctx, 1);
 	return QSON_RESULT_OK;
 }
@@ -35,10 +35,10 @@ static qson_result_t _test_qson_ctx_size_check(struct qson_deserialize_ctx *ctx)
 bool test_qson_ctx_size_check() {
 	test_run_log("qson_ctx_size_check");
 	char buffer[] = "123";
-	struct qson_deserialize_ctx *ctx;
+	qson_deserialize_ctx_t ctx;
 
 	bool success = 1;
-	success &= qson_deserialize_ctx_create((void**) &ctx, buffer, 4) == QSON_RESULT_OK;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, 4) == QSON_RESULT_OK;
 	ctx->index = 3;
 	success &= _test_qson_ctx_size_check(ctx) == QSON_RESULT_UNEXPECTED_EOF;
 	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;

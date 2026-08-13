@@ -55,7 +55,7 @@ qson_result_t qson_deserialize_object_entry_value_number(qson_deserialize_ctx_t 
  * Create a sub context to read array or object
  * Requires state OBJECT_VALUE
  */
-qson_result_t qson_deserialize_object_entry_value_sub_ctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t sub_ctx);
+qson_result_t qson_deserialize_object_entry_value_sub_ctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t *sub_ctx);
 
 /*
  * End created subctx

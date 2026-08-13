@@ -56,7 +56,7 @@ qson_result_t qson_deserialize_array_entry_value_number(qson_deserialize_ctx_t c
  * set context state to ARRAY if has next entry and set to NONE if not
  * Requires state ARRAY_VALUE
  */
-qson_result_t qson_deserialize_array_entry_value_sub_ctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t sub_ctx);
+qson_result_t qson_deserialize_array_entry_value_sub_ctx(qson_deserialize_ctx_t ctx, qson_deserialize_ctx_t *sub_ctx);
 
 /*
  * End created subctx
