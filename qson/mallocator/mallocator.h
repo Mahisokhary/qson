@@ -24,6 +24,11 @@ qson_result_t qson_mallocator_create(qson_mallocator_t *mallocator, void* (*mall
  */
 qson_result_t qson_mallocator_destroy(qson_mallocator_t m);
 
+/*
+ * Returns qson default memory allocator
+ */
+qson_mallocator_t qson_mallocator_default();
+
 #ifdef __cplusplus
 }
 #endif
