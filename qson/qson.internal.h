@@ -21,4 +21,7 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#include "mallocator/mallocator.internal.h"
+
 #endif
