@@ -6,6 +6,7 @@
 #define _qson_qson_h_
 
 #include <stdbool.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {

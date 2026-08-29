@@ -9,6 +9,11 @@
 extern "C" {
 #endif
 
+/*
+ * Pointer to actual allocator
+ */
+typedef struct qson_mallocator *qson_mallocator_t;
+
 #ifdef __cplusplus
 }
 #endif

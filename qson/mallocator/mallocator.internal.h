@@ -9,6 +9,15 @@
 extern "C" {
 #endif
 
+/*
+ * A memory allocator
+ */
+struct qson_mallocator {
+	void* (*malloc)(size_t size); // Allocate memory
+	void* (*realloc)(void *buf, size_t size); // Change size of allocated memory
+	void (*free)(void *buf); // Free allocated memory
+};
+
 #ifdef __cplusplus
 }
 #endif
