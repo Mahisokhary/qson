@@ -5,6 +5,11 @@
 #ifndef _qson_mallocator_mallocator_internal_h_
 #define _qson_mallocator_mallocator_internal_h_
 
+// For context containing an 'mallocator'
+#define qmalloc(c, s) c->mallocator->malloc(s)
+#define qrealloc(c, m, s) c->mallocator->realloc(m, s)
+#define qfree(c, m) c->mallocator->free(m)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
