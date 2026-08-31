@@ -67,7 +67,7 @@ qson_result_t qson_serialize_object_entry_subctx_end(qson_serialize_ctx_t c, qso
 	if (c->state != QSON_SERIALIZE_STATE_SUBCTX) return QSON_RESULT_INVALID_STATE;
 	if (sc->state != QSON_SERIALIZE_STATE_NONE) return QSON_RESULT_INVALID_STATE;
 	c->index = sc->index;
-	free(sc);
+	qfree(sc, sc);
 	qson_run(_handle_has_next(c, has_next));
 	return QSON_RESULT_OK;
 }
