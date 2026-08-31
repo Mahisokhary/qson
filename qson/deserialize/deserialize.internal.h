@@ -20,6 +20,7 @@ struct qson_deserialize_ctx {
 	int index;	// Current index in buffer
 	qson_deserialize_state_t state;	// Current state of deserialization
 	char flags;	// flags for current ctx
+	qson_mallocator_t mallocator;
 };
 
 #define qson_ctx_size_has(ctx, required_size) ((ctx->size - ctx->index) >= required_size && ctx->buffer[ctx->index + required_size] != '\0')

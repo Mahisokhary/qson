@@ -1,18 +1,21 @@
 #include "deserialize.internal.h"
 
 qson_result_t qson_deserialize_ctx_create(qson_deserialize_ctx_t *ctx, char *buffer, int size) {
-	qson_deserialize_ctx_t c = malloc(sizeof(struct qson_deserialize_ctx));
+
+	qson_mallocator_t m = qson_mallocator_default();
+	qson_deserialize_ctx_t c = m->malloc(sizeof(struct qson_deserialize_ctx));
 	c->buffer = buffer;
 	c->size = size;
 	c->index = 0;
 	c->state = QSON_DESERIALIZING_STATE_NONE;
 	c->flags = 0;
+	c->mallocator = m;
 	*ctx = c;
 	return QSON_RESULT_OK;
 }
 
 qson_result_t qson_deserialize_ctx_destroy(qson_deserialize_ctx_t ctx) {
-	free(ctx);
+	qfree(ctx, ctx);
 	return QSON_RESULT_OK;
 }
 
@@ -89,12 +92,13 @@ qson_result_t qson_deserialize_string_skip(qson_deserialize_ctx_t c) {
 }
 
 qson_result_t qson_deserialize_ctx_create_subctx(qson_deserialize_ctx_t c, qson_deserialize_ctx_t *sub_ctx) {
-	qson_deserialize_ctx_t sc = malloc(sizeof(struct qson_deserialize_ctx));
+	qson_deserialize_ctx_t sc = qmalloc(c, sizeof(struct qson_deserialize_ctx));
 	sc->buffer = c->buffer + c->index;
 	sc->index = 0;
 	sc->size = c->size - c->index;
 	sc->flags = QSON_DESERIALIZE_CTX_FLAG_IS_SUBCTX;
 	sc->state = QSON_DESERIALIZING_STATE_NONE;
+	sc->mallocator = c->mallocator;
 	c->state = QSON_DESERIALIZING_STATE_SUBCTX;
 	*sub_ctx = sc;
 	return QSON_RESULT_OK;
@@ -105,7 +109,7 @@ qson_result_t qson_deserialize_ctx_end_subctx(qson_deserialize_ctx_t c, qson_des
 	if (sc->state != QSON_DESERIALIZING_STATE_NONE) return QSON_RESULT_INVALID_STATE;
 	if (!(sc->flags & QSON_DESERIALIZE_CTX_FLAG_IS_SUBCTX)) return QSON_RESULT_INVALID_CONTEXT;
 	c->index += sc->index;
-	free(sc);
+	qfree(sc, sc);
 	return QSON_RESULT_OK;
 }
 
