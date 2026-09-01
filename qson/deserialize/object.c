@@ -99,6 +99,17 @@ qson_result_t qson_deserialize_object_entry_value_string(qson_deserialize_ctx_t 
 	return QSON_RESULT_OK;
 }
 
+qson_result_t qson_deserialize_object_entry_value_string_auto(qson_deserialize_ctx_t c, char **value, size_t *value_length, bool *has_next) {
+	if (c->state != QSON_DESERIALIZING_STATE_OBJECT_VALUE) return QSON_RESULT_INVALID_STATE;
+	if (c->buffer[c->index] != QSON_QUOTATION_MARK) return QSON_RESULT_INVALID_CHAR;
+
+	qson_run(qson_deserialize_string_auto(c, value, value_length));
+	qson_run(_qson_deserialize_skip_white_spaces(c));
+	qson_run(set_has_next(c, has_next));
+
+	return QSON_RESULT_OK;
+}
+
 qson_result_t qson_deserialize_object_entry_value_bool(qson_deserialize_ctx_t c, bool *value, bool *has_next) {
 	if (c->state != QSON_DESERIALIZING_STATE_OBJECT_VALUE) return QSON_RESULT_INVALID_STATE;
 
