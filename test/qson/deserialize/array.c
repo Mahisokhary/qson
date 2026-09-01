@@ -57,6 +57,28 @@ bool test_qson_deserialize_array_entry_value_string() {
 	return success;
 }
 
+bool test_qson_deserialize_array_entry_value_string_auto() {
+	test_run_log("qson_deserialize_array_entry_value_string_auto");
+	char buffer[] = "[ \"string value\"  ]";
+	qson_deserialize_ctx_t ctx;
+	qson_type_t value_type = QSON_TYPE_STRING;
+	char *value;
+	size_t value_size;
+	bool has_next;
+
+	bool success = 1;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_array_start(ctx) == QSON_RESULT_OK;
+	success &= qson_deserialize_array_entry(ctx, &value_type) == QSON_RESULT_OK;
+	success &= qson_deserialize_array_entry_value_string_auto(ctx, &value, &value_size, &has_next) == QSON_RESULT_OK;
+	success &= value_size == 13;
+	success &= strcmp(value, "string value") == 0;
+	success &= !has_next;
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+	test_result_log(success);
+	return success;
+}
+
 bool test_qson_deserialize_array_entry_value_bool() {
 	test_run_log("qson_deserialize_array_entry_value_bool");
 	char buffer[] = "[ true , false ]";
@@ -209,6 +231,7 @@ bool test_qson_deserialize_array() {
 	success &= test_qson_deserialize_array_start();
 	success &= test_qson_deserialize_array_entry();
 	success &= test_qson_deserialize_array_entry_value_string();
+	success &= test_qson_deserialize_array_entry_value_string_auto();
 	success &= test_qson_deserialize_array_entry_value_bool();
 	success &= test_qson_deserialize_array_entry_value_null();
 	success &= test_qson_deserialize_array_entry_value_number();

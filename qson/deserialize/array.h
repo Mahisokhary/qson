@@ -31,6 +31,14 @@ qson_result_t qson_deserialize_array_entry_value_skip(qson_deserialize_ctx_t ctx
 qson_result_t qson_deserialize_array_entry_value_string(qson_deserialize_ctx_t ctx, char *value, int *value_length, bool *has_next);
 
 /*
+ * Read value of entry as a string
+ * Auto allocates the buffer
+ * set context state to ARRAY if has next entry and set to NONE if not
+ * Requires state ARRAY_VALUE
+ */
+qson_result_t qson_deserialize_array_entry_value_string_auto(qson_deserialize_ctx_t ctx, char **value, size_t *value_length, bool *has_next);
+
+/*
  * Read value of entry as boolean
  * set context state to ARRAY if has next entry and set to NONE if not
  * Requires state ARRAY_VALUE
