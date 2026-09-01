@@ -80,6 +80,15 @@ inline static qson_result_t _qson_deserialize_string(struct buffer *b) {
 	return QSON_RESULT_OK;
 }
 
+qson_result_t qson_deserialize_string_auto(qson_deserialize_ctx_t c, char **buffer, size_t *sizep) {
+	struct buffer b = { c, true, 0, BUFFER_SIZE_DEFAULT, NULL };
+	b.buffer = qmalloc(c, b.size);
+	qson_run(_qson_deserialize_string(&b));
+	*buffer = qrealloc(c, b.buffer, b.index);
+	*sizep = b.index;
+	return QSON_RESULT_OK;
+}
+
 qson_result_t qson_deserialize_string(qson_deserialize_ctx_t c, char *buffer, int *sizep) {
 	struct buffer b = { c, false, 0, *sizep, buffer };
 	qson_run(_qson_deserialize_string(&b));

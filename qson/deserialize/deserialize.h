@@ -53,6 +53,13 @@ qson_result_t qson_deserialize_skip_white_spaces(qson_deserialize_ctx_t ctx);
 qson_result_t qson_deserialize_string(qson_deserialize_ctx_t ctx, char *buffer, int *size);
 
 /*
+ * Read a string in current context
+ * Auto allocates the buffer
+ * Ignores state
+ */
+qson_result_t qson_deserialize_string_auto(qson_deserialize_ctx_t ctx, char **buffer, size_t *size);
+
+/*
  * Skip a string value
  * Ignores state
  */

@@ -131,6 +131,26 @@ bool test_qson_deserialize_auto_skip() {
 	return success;
 }
 
+bool test_qson_deserialize_string_auto() {
+	test_run_log("qson_deserialize_string_auto");
+	qson_deserialize_ctx_t ctx;
+	char buffer[] = "\"wtf is this shit?\"w";
+	char valid_res[] = "wtf is this shit?";
+	size_t valid_res_size = array_len(valid_res);
+	char *res;
+	size_t res_size;
+
+	bool success = 1;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_string_auto(ctx, &res, &res_size) == QSON_RESULT_OK;
+	success &= res_size == valid_res_size;
+	success &= strcmp(res, valid_res) == 0;
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+	free(res);
+	test_result_log(success);
+	return success;
+}
+
 extern bool test_qson_deserialize_array();
 extern bool test_qson_deserialize_object();
 
@@ -145,6 +165,7 @@ bool test_qson_deserialize() {
 	success &= test_qson_deserialize_bool_skip();
 	success &= test_qson_deserialize_number_skip();
 	success &= test_qson_deserialize_auto_skip();
+	success &= test_qson_deserialize_string_auto();
 	success &= test_qson_deserialize_array();
 	success &= test_qson_deserialize_object();
 	return success;
