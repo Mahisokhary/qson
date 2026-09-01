@@ -1,5 +1,13 @@
 #include "deserialize.internal.h"
 
+struct buffer {
+	qson_deserialize_ctx_t c;
+	bool dynamic;	// Is buffer resizable
+	size_t index;	// Current index
+	size_t size;	// Its capacity
+	char *buffer;	// Buffer
+};
+
 inline static qson_result_t handle_escape(qson_deserialize_ctx_t c, char *buffer, int *sizep, int *ip) {
 	int size = *sizep;
 	int i = *ip;
