@@ -18,6 +18,13 @@ qson_result_t qson_deserialize_object_start(qson_deserialize_ctx_t ctx);
 qson_result_t qson_deserialize_object_entry(qson_deserialize_ctx_t ctx, char *key, int *key_length, qson_type_t *type);
 
 /*
+ * Start deserializing a entry of an object and set context state to OBJECT_VALUE
+ * Auto allocates the key buffer
+ * Requires state OBJECT
+ */
+qson_result_t qson_deserialize_object_entry_auto(qson_deserialize_ctx_t ctx, char **key, size_t *key_length, qson_type_t *type);
+
+/*
  * Skip current entry value
  * Requires state OBJECT_VALUE
  */

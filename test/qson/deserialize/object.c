@@ -45,6 +45,33 @@ bool test_qson_deserialize_object_entry() {
 	return success;
 }
 
+bool test_qson_deserialize_object_entry_auto() {
+	test_run_log("qson_deserialize_object_entry_auto");
+	char buffer[] = "{ \"key\\u2764\" : \"string value\"  }";
+	qson_deserialize_ctx_t ctx;
+	char *key;
+	size_t key_size;
+	qson_type_t value_type = QSON_TYPE_STRING;
+
+	bool success = 1;
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_object_start(ctx) == QSON_RESULT_OK;
+	success &= qson_deserialize_object_entry_auto(ctx, &key, &key_size, &value_type) == QSON_RESULT_OK;
+	success &= key_size == 7;
+	success &= strcmp(key, "key\u2764") == 0;
+	free(key);
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+
+	// Skip the key
+	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
+	success &= qson_deserialize_object_start(ctx) == QSON_RESULT_OK;
+	success &= qson_deserialize_object_entry_auto(ctx, NULL, NULL, &value_type) == QSON_RESULT_OK;
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
+
+	test_result_log(success);
+	return success;
+}
+
 bool test_qson_deserialize_object_entry_value_string() {
 	test_run_log("qson_deserialize_object_entry_value_string");
 	char buffer[] = "{ \"key\" : \"string value\"  }";
@@ -253,6 +280,7 @@ bool test_qson_deserialize_object() {
 	bool success = 1;
 	success &= test_qson_deserialize_object_start();
 	success &= test_qson_deserialize_object_entry();
+	success &= test_qson_deserialize_object_entry_auto();
 	success &= test_qson_deserialize_object_entry_value_string();
 	success &= test_qson_deserialize_object_entry_value_bool();
 	success &= test_qson_deserialize_object_entry_value_null();

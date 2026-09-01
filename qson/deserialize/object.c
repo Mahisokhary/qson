@@ -37,26 +37,45 @@ qson_result_t qson_deserialize_object_start(qson_deserialize_ctx_t c) {
 	return QSON_RESULT_OK;
 }
 
-qson_result_t qson_deserialize_object_entry(qson_deserialize_ctx_t c, char *key, int *key_length, qson_type_t *type) {
+inline static qson_result_t _qson_deserialize_object_entry_prekey(qson_deserialize_ctx_t c) {
 	if (c->state != QSON_DESERIALIZING_STATE_OBJECT) return QSON_RESULT_INVALID_STATE;
 
 	qson_run(_qson_deserialize_skip_white_spaces(c));
 
 	if (c->buffer[c->index] != QSON_QUOTATION_MARK) return QSON_RESULT_INVALID_CHAR;
 	c->state = QSON_DESERIALIZING_STATE_OBJECT_VALUE;
+	return QSON_RESULT_OK;
+}
 
-	if (key != NULL && key_length != NULL) {
-		qson_run(qson_deserialize_string(c, key, key_length));
-	} else {
-		qson_run(qson_deserialize_string_skip(c));
-	}
+inline static qson_result_t _qson_deserialize_object_entry_postkey(qson_deserialize_ctx_t c, qson_type_t *type) {
 	qson_run(_qson_deserialize_skip_white_spaces(c));
 
 	if (c->buffer[c->index++] != QSON_NAME_SEPARATOR) return QSON_RESULT_INVALID_CHAR;
 
 	qson_run(_qson_deserialize_skip_white_spaces(c));
 	qson_run(_qson_detect_type(c, type));
+	return QSON_RESULT_OK;
+}
 
+qson_result_t qson_deserialize_object_entry(qson_deserialize_ctx_t c, char *key, int *key_length, qson_type_t *type) {
+	_qson_deserialize_object_entry_prekey(c);
+	if (key != NULL && key_length != NULL) {
+		qson_run(qson_deserialize_string(c, key, key_length));
+	} else {
+		qson_run(qson_deserialize_string_skip(c));
+	}
+	_qson_deserialize_object_entry_postkey(c, type);
+	return QSON_RESULT_OK;
+}
+
+qson_result_t qson_deserialize_object_entry_auto(qson_deserialize_ctx_t c, char **key, size_t *key_length, qson_type_t *type) {
+	_qson_deserialize_object_entry_prekey(c);
+	if (key != NULL && key_length != NULL) {
+		qson_run(qson_deserialize_string_auto(c, key, key_length));
+	} else {
+		qson_run(qson_deserialize_string_skip(c));
+	}
+	_qson_deserialize_object_entry_postkey(c, type);
 	return QSON_RESULT_OK;
 }
 
