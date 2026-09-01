@@ -120,6 +120,7 @@ bool test_qson_deserialize_object_entry_value_string_auto() {
 	success &= qson_deserialize_object_entry_value_string_auto(ctx, &value, &value_size, &has_next) == QSON_RESULT_OK;
 	success &= value_size == 13;
 	success &= strcmp(value, "string value") == 0;
+	free(value);
 	success &= !has_next;
 	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
 	test_result_log(success);
