@@ -10,6 +10,19 @@ struct buffer {
 	char *buffer;	// Buffer
 };
 
+inline static qson_result_t buffer_write(struct buffer *b, char c) {
+	if (b->size - b->index) {
+		b->buffer[b->index++] = c;
+	} else if (b->dynamic) {
+		b->size *= 2;
+		b->buffer = qrealloc(b->c, b->buffer, b->size);
+		return buffer_write(b, c);
+	} else {
+		return QSON_RESULT_BUFFER_TOO_SMALL;
+	}
+	return  QSON_RESULT_OK;
+}
+
 inline static qson_result_t handle_escape(qson_deserialize_ctx_t c, char *buffer, int *sizep, int *ip) {
 	int size = *sizep;
 	int i = *ip;
