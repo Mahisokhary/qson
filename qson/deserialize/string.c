@@ -55,6 +55,31 @@ inline static qson_result_t handle_escape(struct buffer *b) {
 	return QSON_RESULT_OK;
 }
 
+inline static qson_result_t _qson_deserialize_string(struct buffer *b) {
+	qson_deserialize_ctx_t c = b->c;
+	if (c->buffer[c->index] != QSON_QUOTATION_MARK) return QSON_RESULT_INVALID_CHAR;
+	qson_ctx_skip(c, 1);
+
+	while (true) {
+		char chr = c->buffer[c->index];
+		switch (chr) {
+		case QSON_QUOTATION_MARK:
+			buffer_write(b, '\0');
+			qson_ctx_skip(c, 1);
+			return QSON_RESULT_OK;
+		case QSON_STRING_ESCAPE_CHAR:
+			qson_result_t res = handle_escape(b);
+			if (res != QSON_RESULT_OK) return res;
+			break;
+		default:
+			if (chr < 32 || 126 < chr) return QSON_RESULT_INVALID_CHAR;
+			buffer_write(b, chr);
+		}
+		qson_ctx_skip(c, 1);
+	}
+	return QSON_RESULT_OK;
+}
+
 qson_result_t qson_deserialize_string(qson_deserialize_ctx_t c, char *buffer, int *sizep) {
 	if (c->buffer[c->index] != QSON_QUOTATION_MARK) return QSON_RESULT_INVALID_CHAR;
 	qson_ctx_skip(c, 1);
