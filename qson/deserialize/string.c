@@ -1,5 +1,7 @@
 #include "deserialize.internal.h"
 
+#define BUFFER_SIZE_DEFAULT 8
+
 struct buffer {
 	qson_deserialize_ctx_t c;
 	bool dynamic;	// Is buffer resizable
