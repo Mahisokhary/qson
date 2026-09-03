@@ -30,6 +30,11 @@ typedef struct qson_deserialize_ctx* qson_deserialize_ctx_t;
 qson_result_t qson_deserialize_ctx_create(qson_deserialize_ctx_t *ctx, char *buffer, int size);
 
 /*
+ * Create a deserialize context for given byte buffer with given mallocator
+ */
+qson_result_t qson_deserialize_ctx_create_mallocator(qson_deserialize_ctx_t *ctx, char *buffer, int size, qson_mallocator_t m);
+
+/*
  * Destroys the deserialize context
  * Ignores state
  */

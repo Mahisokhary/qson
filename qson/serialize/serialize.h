@@ -28,6 +28,11 @@ typedef struct qson_serialize_ctx* qson_serialize_ctx_t;
 qson_result_t qson_serialize_ctx_create(qson_serialize_ctx_t *ctx, char *buffer, int size);
 
 /*
+ * Create a serialize context for given byte buffer with given mallocator
+ */
+qson_result_t qson_serialize_ctx_create_mallocator(qson_serialize_ctx_t *ctx, char *buffer, int size, qson_mallocator_t m);
+
+/*
  * Destroys the serialize context
  */
 qson_result_t qson_serialize_ctx_destroy(qson_serialize_ctx_t ctx);

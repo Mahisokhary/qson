@@ -52,8 +52,8 @@ typedef enum {
 }
 #endif
 
+#include "mallocator/mallocator.h"
 #include "deserialize/deserialize.h"
 #include "serialize/serialize.h"
-#include "mallocator/mallocator.h"
 
 #endif

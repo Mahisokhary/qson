@@ -2,6 +2,10 @@
 
 qson_result_t qson_serialize_ctx_create(qson_serialize_ctx_t *ctx, char *buffer, int size) {
 	qson_mallocator_t m = qson_mallocator_default();
+	return qson_serialize_ctx_create_mallocator(ctx, buffer, size, m);
+}
+
+qson_result_t qson_serialize_ctx_create_mallocator(qson_serialize_ctx_t *ctx, char *buffer, int size, qson_mallocator_t m) {
 	qson_serialize_ctx_t c = m->malloc(sizeof(struct qson_serialize_ctx));
 	c->buffer = buffer;
 	c->size = size;
