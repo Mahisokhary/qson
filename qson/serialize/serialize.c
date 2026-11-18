@@ -70,7 +70,7 @@ qson_result_t qson_serialize_number(qson_serialize_ctx_t c, double value) {
 }
 
 qson_result_t qson_serialize_ctx_create_subctx(qson_serialize_ctx_t c, qson_serialize_ctx_t *sub_ctx) {
-	qson_serialize_ctx_t sc = qmalloc(c, sizeof(struct qson_serialize_ctx));
+	qson_serialize_ctx_t sc; qmalloc(sc, c, sizeof(struct qson_serialize_ctx));
 	c->state = QSON_SERIALIZE_STATE_SUBCTX;
 	sc->state = QSON_SERIALIZE_STATE_NONE;
 	sc->flags = c->flags | QSON_SERIALIZE_CTX_FLAG_IS_SUBCTX;
