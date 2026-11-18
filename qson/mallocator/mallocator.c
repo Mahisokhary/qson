@@ -18,6 +18,7 @@ static void _free(void *buff) {
 
 qson_result_t qson_mallocator_create(qson_mallocator_t *mallocator, void* (*malloc)(size_t size), void* (*realloc)(void *buf, size_t size), void (*free)(void *buf)) {
 	qson_mallocator_t m = malloc(sizeof(&m));
+	if (!m) return QSON_RESULT_OUT_OF_MEMORY;
 	m->malloc = malloc;
 	m->realloc = realloc;
 	m->free = free;
