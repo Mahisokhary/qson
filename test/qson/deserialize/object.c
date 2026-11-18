@@ -10,6 +10,7 @@ bool test_qson_deserialize_object_start() {
 	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_deserialize_object_start(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_state(ctx) == QSON_DESERIALIZING_STATE_OBJECT;
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_create(&ctx, buffer2, array_len(buffer2)) == QSON_RESULT_OK;
 	success &= qson_deserialize_object_start(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_state(ctx) == QSON_DESERIALIZING_STATE_NONE;
