@@ -6,7 +6,7 @@ qson_result_t qson_deserialize_ctx_create(qson_deserialize_ctx_t *ctx, char *buf
 }
 
 qson_result_t qson_deserialize_ctx_create_mallocator(qson_deserialize_ctx_t *ctx, char *buffer, int size, qson_mallocator_t m) {
-	qson_deserialize_ctx_t c = m->malloc(sizeof(struct qson_deserialize_ctx));
+	qson_deserialize_ctx_t c; qmallocm(c, m, sizeof(struct qson_deserialize_ctx));
 	c->buffer = buffer;
 	c->size = size;
 	c->index = 0;
@@ -95,7 +95,7 @@ qson_result_t qson_deserialize_string_skip(qson_deserialize_ctx_t c) {
 }
 
 qson_result_t qson_deserialize_ctx_create_subctx(qson_deserialize_ctx_t c, qson_deserialize_ctx_t *sub_ctx) {
-	qson_deserialize_ctx_t sc = qmalloc(c, sizeof(struct qson_deserialize_ctx));
+	qson_deserialize_ctx_t sc; qmalloc(sc, c, sizeof(struct qson_deserialize_ctx));
 	sc->buffer = c->buffer + c->index;
 	sc->index = 0;
 	sc->size = c->size - c->index;

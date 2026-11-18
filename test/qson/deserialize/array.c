@@ -10,6 +10,7 @@ bool test_qson_deserialize_array_start() {
 	success &= qson_deserialize_ctx_create(&ctx, buffer, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_deserialize_array_start(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_state(ctx) == QSON_DESERIALIZING_STATE_ARRAY;
+	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_create(&ctx, buffer2, array_len(buffer)) == QSON_RESULT_OK;
 	success &= qson_deserialize_array_start(ctx) == QSON_RESULT_OK;
 	success &= qson_deserialize_ctx_state(ctx) == QSON_DESERIALIZING_STATE_NONE;
@@ -74,6 +75,7 @@ bool test_qson_deserialize_array_entry_value_string_auto() {
 	success &= value_size == 13;
 	success &= strcmp(value, "string value") == 0;
 	success &= !has_next;
+	free(value);
 	success &= qson_deserialize_ctx_destroy(ctx) == QSON_RESULT_OK;
 	test_result_log(success);
 	return success;

@@ -15,7 +15,7 @@ inline static qson_result_t buffer_write(struct buffer *b, char c) {
 		b->buffer[b->index++] = c;
 	} else if (b->dynamic) {
 		b->size *= 2;
-		b->buffer = qrealloc(b->c, b->buffer, b->size);
+		qrealloc(b->buffer, b->c, b->buffer, b->size);
 		return buffer_write(b, c);
 	} else {
 		return QSON_RESULT_BUFFER_TOO_SMALL;
@@ -82,9 +82,9 @@ inline static qson_result_t _qson_deserialize_string(struct buffer *b) {
 
 qson_result_t qson_deserialize_string_auto(qson_deserialize_ctx_t c, char **buffer, size_t *sizep) {
 	struct buffer b = { c, true, 0, BUFFER_SIZE_DEFAULT, NULL };
-	b.buffer = qmalloc(c, b.size);
+	qmalloc(b.buffer, c, b.size);
 	qson_run(_qson_deserialize_string(&b));
-	*buffer = qrealloc(c, b.buffer, b.index);
+	qrealloc(*buffer, c, b.buffer, b.index);
 	*sizep = b.index;
 	return QSON_RESULT_OK;
 }

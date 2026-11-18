@@ -5,10 +5,20 @@
 #ifndef _qson_mallocator_mallocator_internal_h_
 #define _qson_mallocator_mallocator_internal_h_
 
+#define qmallocm(v, mal, s) do { \
+	v = mal->malloc(s); \
+	if (!v) return QSON_RESULT_OUT_OF_MEMORY; \
+	} while(0);
+#define qreallocm(v, mal, m, s) do { \
+	v = mal->realloc(m, s); \
+	if (!v) return QSON_RESULT_OUT_OF_MEMORY; \
+	} while(0);
+#define qfreem(mal, m) mal->free(m)
+
 // For context containing an 'mallocator'
-#define qmalloc(c, s) c->mallocator->malloc(s)
-#define qrealloc(c, m, s) c->mallocator->realloc(m, s)
-#define qfree(c, m) c->mallocator->free(m)
+#define qmalloc(v, c, s) qmallocm(v, c->mallocator, s)
+#define qrealloc(v, c, m, s) qreallocm(v, c->mallocator, m, s)
+#define qfree(c, m) qfreem(c->mallocator, m)
 
 #ifdef __cplusplus
 extern "C" {
